@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Queuing + Stream</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			--overlay-width: min(38vw, 460px);
+			--overlay-height: calc(var(--overlay-width) * 9 / 16);
+			--overlay-gap: 24px;
+		}
+
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			background: #000;
+		}
+
+		body {
+			position: relative;
+		}
+
+		.backdrop {
+			position: fixed;
+			inset: 0;
+			width: 100vw;
+			height: 100vh;
+			border: 0;
+			display: block;
+		}
+
+		.overlay {
+			position: fixed;
+			left: var(--overlay-gap);
+			bottom: calc(var(--overlay-gap) + 10vh);
+			width: var(--overlay-width);
+			aspect-ratio: 16 / 9;
+			max-width: calc(100vw - (var(--overlay-gap) * 2));
+			max-height: calc(100vh - (var(--overlay-gap) * 2));
+			border: 0;
+			border-radius: 18px;
+			box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+			background: #000;
+			overflow: hidden;
+			z-index: 2;
+		}
+
+		@media (max-width: 900px) {
+			:root {
+				--overlay-width: min(50vw, 340px);
+				--overlay-gap: 12px;
+			}
+		}
+
+		@media (max-width: 640px) {
+			:root {
+				--overlay-width: min(74vw, 300px);
+				--overlay-gap: 10px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<iframe
+		id="content"
+		class="backdrop"
+		src="https://frc.nexus/en/event/demo0069/display/pit"
+	></iframe>
+	<iframe
+		id="video"
+		class="overlay"
+		src="stream/friday.html"
+		allowfullscreen
+	></iframe>
+	<script>
+		(() => {
+			const videoFrame = document.getElementById('video');
+			const getStreamSource = () => {
+				const today = new Date();
+				const isSaturday = today.getFullYear() === 2026 && today.getMonth() === 6 && today.getDate() === 18;
+				return isSaturday ? 'stream/saturday.html' : 'stream/friday.html';
+			};
+
+			const syncStream = () => {
+				const nextSource = getStreamSource();
+				if (videoFrame.src !== new URL(nextSource, window.location.href).href) {
+					videoFrame.src = nextSource;
+				}
+			};
+
+			syncStream();
+			setInterval(syncStream, 10 * 1000);
+		})();
+	</script>
+</body>
+</html>

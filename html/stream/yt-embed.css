@@ -1,0 +1,16 @@
+html {
+  background: #000;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+iframe#video {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+}
