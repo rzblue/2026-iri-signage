@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="yt-embed.css"/>
+</head>
+<body>
+    <iframe id="video" src="https://www.youtube.com/embed/njX2bu-_Vw4?autoplay=1&playlist=njX2bu-_Vw4&mute=1&controls=0&loop=1" allowfullscreen allow="autoplay; fullscreen"></iframe>
+
+    <script>
+      const defaultVideoId = "njX2bu-_Vw4";
+      const params = new URLSearchParams(window.location.search);
+      const videoId = (params.get("yt") || defaultVideoId).trim();
+      const embedUrl = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=1&playlist=${encodeURIComponent(videoId)}&mute=1&controls=0&loop=1`;
+
+      document.getElementById("video").src = embedUrl;
+    </script>
+</body>
+</html>
